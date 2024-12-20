@@ -1,11 +1,8 @@
-import './App.css'
-
+import TodoAppModel from "./Todo/TodoAppModel";
 function App() {
   return (
-    <>
-      <h1>Vite + React</h1>
-    </>
+    <TodoAppModel />
   )
 }
 
-export default App
+export default App;
