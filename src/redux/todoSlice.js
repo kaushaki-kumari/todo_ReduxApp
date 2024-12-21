@@ -1,10 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
 
+const loadTodosFromLocalStorage = () => {
+  const savedTodos = localStorage.getItem("todos");
+  return savedTodos ? JSON.parse(savedTodos) : [];
+};
+
 const todoSlice = createSlice({
   name: "todos",
   initialState: {
-    todos: [],
+    todos: loadTodosFromLocalStorage(), 
     currentTodo: null,
     isDeleteModalOpen: false,
     todoIdToDelete: null,
@@ -54,7 +59,6 @@ const todoSlice = createSlice({
     setTodoIdToDelete: (state, action) => {
       state.todoIdToDelete = action.payload;
     },
-
     updateAlarmColor: (state, action) => {
       const { id, alarmColor } = action.payload;
       const todo = state.todos.find((todo) => todo.id === id);
@@ -62,12 +66,11 @@ const todoSlice = createSlice({
         todo.alarmColor = alarmColor;
       }
     },
-
     updateTodosAlarmColors: (state) => {
       const currentTime = moment();
       state.todos.forEach((todo) => {
         if (!todo.completed && moment(todo.alarmTime).isBefore(currentTime)) {
-          todo.alarmColor = "bg-red-500"; 
+          todo.alarmColor = "bg-red-500";
         }
       });
     },
@@ -84,7 +87,7 @@ export const {
   setDeleteModalState,
   setTodoIdToDelete,
   updateAlarmColor,
-  updateTodosAlarmColors, 
+  updateTodosAlarmColors,
 } = todoSlice.actions;
 
 export default todoSlice.reducer;

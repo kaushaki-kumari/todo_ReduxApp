@@ -1,18 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit';
-import moment from 'moment';
+import { createSlice } from "@reduxjs/toolkit";
+import moment from "moment";
 
-const getCurrentTime = () => moment().format('HH:mm');
+const getCurrentTime = () => moment().format("HH:mm");
 
 const initialState = {
   currentTime: getCurrentTime(),
 };
 
 const timeSlice = createSlice({
-  name: 'time',
+  name: "time",
   initialState,
   reducers: {
     setCurrentTime: (state) => {
-      state.currentTime = getCurrentTime(); 
+      state.currentTime = getCurrentTime();
     },
   },
 });

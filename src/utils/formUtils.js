@@ -20,6 +20,10 @@ export const validateTodoData = (data) => {
         if (!data.alarmTime.includes("T") || data.alarmTime.split("T")[1] === "") {
             validationErrors.alarmTime = "Please select both date and time.";
         }
+
+        if (selectedTime.year() > 2025) {
+            validationErrors.alarmTime = "Alarm time cannot exceed the year 2025.";
+        }
     }
     
     return validationErrors;
