@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
+import moment from 'moment'; 
 
 const initialState = {
-  currentTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+  currentTime: moment().format('HH:mm'), 
 };
 
 const timeSlice = createSlice({
@@ -16,3 +17,4 @@ const timeSlice = createSlice({
 
 export const { setCurrentTime } = timeSlice.actions;
 export default timeSlice.reducer;
+

@@ -1,30 +1,24 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { FaBatteryFull, FaWifi, FaSignal } from 'react-icons/fa';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentTime } from '../redux/timeSlice';
+import moment from 'moment';
 
 function TodoHead({ toggleAddTodo }) {
   const dispatch = useDispatch();
-  const currentTime = useSelector(state => state.time.currentTime);
+  const currentTime = useSelector((state) => state.time.currentTime);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      dispatch(setCurrentTime(time));
-    }, 60000); 
-
+      const newTime = moment().format('HH:mm');
+      dispatch(setCurrentTime(newTime)); 
+    }, 10000); 
     return () => clearInterval(interval); 
-  }, [dispatch]);
+  });
 
   return (
-    <>
+    <div>
       <div className="flex justify-between items-center px-4 py-2">
         <h1 className="text-lg font-bold">{currentTime}</h1>
-        <div className="flex items-center space-x-1">
-          <FaSignal className="text-black w-4 h-4" />
-          <FaWifi className="text-black w-4 h-4" />
-          <FaBatteryFull className="text-black w-4 h-4" />
-        </div>
       </div>
       <div className="w-[375px] h-[60px] relative overflow-hidden">
         <h1 className="w-16 h-10 absolute top-2 left-[16px] text-2xl leading-10 tracking-normal text-black font-bold font-sans">
@@ -43,7 +37,7 @@ function TodoHead({ toggleAddTodo }) {
           <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
         </svg>
       </div>
-    </>
+    </div>
   );
 }
 

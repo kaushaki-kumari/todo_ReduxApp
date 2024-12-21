@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { toggleTodoCompletion, setCurrentTodo, setDeleteModalState, setTodoIdToDelete } from "../redux/todoSlice";
+import {
+    toggleTodoCompletion,
+    setCurrentTodo,
+    setDeleteModalState,
+    setTodoIdToDelete,
+    updateTodosAlarmColors,
+} from "../redux/todoSlice";
 import { IoIosAlarm, IoMdCreate, IoIosTrash } from "react-icons/io";
 import moment from "moment";
 
 function TodoItem({ todo }) {
     const dispatch = useDispatch();
-
     const formatTime = (time) => moment(time).format("YYYY-MM-DD HH:mm");
 
     const handleAction = (action) => {
@@ -15,16 +20,23 @@ function TodoItem({ todo }) {
                 dispatch(toggleTodoCompletion(todo.id));
                 break;
             case "edit":
-                dispatch(setCurrentTodo(todo)); 
+                dispatch(setCurrentTodo(todo));
                 break;
             case "delete":
-                dispatch(setTodoIdToDelete(todo.id)); 
-                dispatch(setDeleteModalState({ isOpen: true })); 
+                dispatch(setTodoIdToDelete(todo.id));
+                dispatch(setDeleteModalState(true));
                 break;
             default:
                 break;
         }
     };
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            dispatch(updateTodosAlarmColors());
+        }, 10000);
+        return () => clearInterval(interval);
+    });
 
     return (
         <li className="d-flex justify-content-between align-items-center">
@@ -38,7 +50,10 @@ function TodoItem({ todo }) {
                 <div className="list-group-item w-80 my-1 py-2">
                     <div className="flex justify-between items-center">
                         <span className="break-all w-10/12">{todo.title}</span>
-                        <div className={`w-3 h-3 rounded-full mr-2 ${todo.alarmColor || "bg-gray-500"}`}></div>
+                        <div
+                            className={`w-3 h-3 rounded-full mr-2 ${todo.alarmColor || "bg-gray-500"
+                                }`}
+                        ></div>
                         <button onClick={() => handleAction("edit")}>
                             <IoMdCreate className="text-black w-5 h-5 hover:text-blue-700" />
                         </button>
@@ -49,7 +64,9 @@ function TodoItem({ todo }) {
                     {todo.alarmTime && (
                         <div className="flex items-center">
                             <IoIosAlarm className="text-gray-400 mr-1" />
-                            <span className="text-xs text-gray-400">{formatTime(todo.alarmTime)}</span>
+                            <span className="text-xs text-gray-400">
+                                {formatTime(todo.alarmTime)}
+                            </span>
                         </div>
                     )}
                 </div>
