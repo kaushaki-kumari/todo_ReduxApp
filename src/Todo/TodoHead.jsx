@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentTime } from '../redux/timeSlice';
-import moment from 'moment';
 
 function TodoHead({ toggleAddTodo }) {
   const dispatch = useDispatch();
@@ -9,10 +8,10 @@ function TodoHead({ toggleAddTodo }) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const newTime = moment().format('HH:mm');
-      dispatch(setCurrentTime(newTime)); 
-    }, 10000); 
-    return () => clearInterval(interval); 
+      dispatch(setCurrentTime());
+    }, 1000);
+
+    return () => clearInterval(interval);
   });
 
   return (

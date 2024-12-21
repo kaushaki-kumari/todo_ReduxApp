@@ -1,20 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
-import moment from 'moment'; 
+import moment from 'moment';
+
+const getCurrentTime = () => moment().format('HH:mm');
 
 const initialState = {
-  currentTime: moment().format('HH:mm'), 
+  currentTime: getCurrentTime(),
 };
 
 const timeSlice = createSlice({
   name: 'time',
   initialState,
   reducers: {
-    setCurrentTime: (state, action) => {
-      state.currentTime = action.payload;
+    setCurrentTime: (state) => {
+      state.currentTime = getCurrentTime(); 
     },
   },
 });
 
 export const { setCurrentTime } = timeSlice.actions;
 export default timeSlice.reducer;
-

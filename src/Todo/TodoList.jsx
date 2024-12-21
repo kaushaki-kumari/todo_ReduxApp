@@ -17,23 +17,21 @@ function TodoList() {
 
     return (
         <div>
-            <ul className="list-group">
-                {todos.map((todo) => (
-                    <TodoItem
-                        key={todo.id}
-                        todo={todo}
-                    />
-                ))}
-            </ul>
+            {todos.length === 0 ? (
+                <p className="text-center text-xl text-gray-500 font-semibold">Add Task......</p>
+            ) : (
+                <ul className="list-group">
+                    {todos.map((todo) => (
+                        <TodoItem key={todo.id} todo={todo} />
+                    ))}
+                </ul>
+            )}
 
             {currentTodo && (
                 <AddEditTodo todo={currentTodo} onCancel={handleCancelEdit} />
             )}
 
-            <DeleteTodo
-                isOpen={isDeleteModalOpen}
-                todoId={todoIdToDelete}
-            />
+            <DeleteTodo isOpen={isDeleteModalOpen} todoId={todoIdToDelete} />
         </div>
     );
 }
